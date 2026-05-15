@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Messages</title>
+</head>
+<body>
+    <h1>Messages</h1>
+
+    <form method="POST">
+        <input type="text" name="message" placeholder="Your message">
+        <button type="submit">Send</button>
+    </form>
+
+    <ul>
+        {% for msg in messages %}
+            <li>{{ msg[0] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+``

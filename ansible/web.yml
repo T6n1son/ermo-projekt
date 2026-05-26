@@ -1,0 +1,25 @@
+- hosts: web
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Install docker-compose
+      apt:
+        name: docker-compose
+        state: present
+
+    - name: Copy app
+      copy:
+        src: ../studentapp/
+        dest: /home/ubuntu/app
+
+    - name: Restart app
+      command: docker-compose down && docker-compose up -d
+      args:
+        chdir: /home/ubuntu/app
+

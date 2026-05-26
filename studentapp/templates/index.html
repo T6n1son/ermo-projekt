@@ -1,21 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Flask Messages</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        width: 500px;
+        margin: 40px auto;
+        background: white;
+        padding: 20px;
+        border: 1px solid #ccc;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    form {
+        margin-bottom: 15px;
+    }
+
+    input {
+        width: 70%;
+        padding: 8px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        padding: 8px 12px;
+    }
+
+    .msg {
+        border-bottom: 1px solid #ddd;
+        padding: 5px 0;
+    }
+</style>
+
+
 <body>
-    <h1>Messages</h1>
+    <div class="container">
 
-    <form method="POST">
-        <input type="text" name="message" placeholder="Your message">
-        <button type="submit">Send</button>
-    </form>
+        <h1>Message App</h1>
 
-    <ul>
-        {% for msg in messages %}
-            <li>{{ msg[0] }}</li>
-        {% endfor %}
-    </ul>
+        <form method="post">
+            <input type="text" name="message" placeholder="Enter message">
+            <button type="submit">Send</button>
+        </form>
+
+        <div class="messages">
+            {% for m in messages %}
+            <div class="msg">{{ m }}</div>
+            {% endfor %}
+        </div>
+
+    </div>
 </body>
+
 </html>
 ``

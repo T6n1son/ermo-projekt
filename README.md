@@ -20,6 +20,11 @@ Projektis on kolm virtuaalmasinat:
 - PostgreSQL (andmebaas)
 - Terraform (taristu loomine)
 - Ansible (seadistamine)
+## Tulemus
+
+Rakendus on kättesaadav:
+
+http://192.168.10.37:5000
 
 ## Käivitamine
 

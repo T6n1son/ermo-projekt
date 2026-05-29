@@ -12,3 +12,6 @@ variable "proxmox_ssh_password" {
   description = "Proxmox SSH parool"
   sensitive   = true
 }
+variable "ssh_public_key" {
+  description = "SSH public key VM-idele ligipääsuks"
+}

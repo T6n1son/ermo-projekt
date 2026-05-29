@@ -23,7 +23,7 @@ resource "proxmox_virtual_environment_vm" "template" {
   }
   disk {
     datastore_id = "local-lvm"
-    file_id = proxmox_download_file.ubuntu_image.id
+    file_id      = proxmox_download_file.ubuntu_image.id
     interface    = "scsi0"
     size         = 20
   }
@@ -36,9 +36,10 @@ resource "proxmox_virtual_environment_vm" "template" {
 
 # Web VM
 resource "proxmox_virtual_environment_vm" "web" {
-  name      = "sten-web-01"
-  node_name = "pve"
+  name       = "sten-web-01"
+  node_name  = "pve"
   depends_on = [proxmox_virtual_environment_vm.template]
+
   clone {
     vm_id = proxmox_virtual_environment_vm.template.vm_id
   }
@@ -53,13 +54,27 @@ resource "proxmox_virtual_environment_vm" "web" {
     bridge = "vmbr0"
   }
   scsi_hardware = "virtio-scsi-pci"
+
+  initialization {
+    user_account {
+      username = "ubuntu"
+      password = "ubuntu123"
+      keys     = [var.ssh_public_key]
+    }
+    ip_config {
+      ipv4 {
+        address = "dhcp"
+      }
+    }
+  }
 }
 
 # DB VM
 resource "proxmox_virtual_environment_vm" "db" {
-  name      = "sten-db-01"
-  node_name = "pve"
+  name       = "sten-db-01"
+  node_name  = "pve"
   depends_on = [proxmox_virtual_environment_vm.template]
+
   clone {
     vm_id = proxmox_virtual_environment_vm.template.vm_id
   }
@@ -74,13 +89,27 @@ resource "proxmox_virtual_environment_vm" "db" {
     bridge = "vmbr0"
   }
   scsi_hardware = "virtio-scsi-pci"
+
+  initialization {
+    user_account {
+      username = "ubuntu"
+      password = "ubuntu123"
+      keys     = [var.ssh_public_key]
+    }
+    ip_config {
+      ipv4 {
+        address = "dhcp"
+      }
+    }
+  }
 }
 
 # Monitor VM
 resource "proxmox_virtual_environment_vm" "monitor" {
-  name      = "sten-monitor-01"
-  node_name = "pve"
+  name       = "sten-monitor-01"
+  node_name  = "pve"
   depends_on = [proxmox_virtual_environment_vm.template]
+
   clone {
     vm_id = proxmox_virtual_environment_vm.template.vm_id
   }
@@ -95,4 +124,17 @@ resource "proxmox_virtual_environment_vm" "monitor" {
     bridge = "vmbr0"
   }
   scsi_hardware = "virtio-scsi-pci"
+
+  initialization {
+    user_account {
+      username = "ubuntu"
+      password = "ubuntu123"
+      keys     = [var.ssh_public_key]
+    }
+    ip_config {
+      ipv4 {
+        address = "dhcp"
+      }
+    }
+  }
 }

@@ -1,0 +1,12 @@
+- hosts: monitor
+  become: yes
+  tasks:
+    - name: Install monitoring tools
+      apt:
+        name:
+          - htop
+          - net-tools
+          - curl
+          - nmap
+        state: present
+        update_cache: yes

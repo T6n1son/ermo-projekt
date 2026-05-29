@@ -1,6 +1,7 @@
 - hosts: web
   become: yes
-
+  vars:
+    db_host: "192.168.10.59"
   tasks:
     - name: Install Docker
       apt:
@@ -18,8 +19,13 @@
         src: ../studentapp/
         dest: /home/ubuntu/app
 
-    - name: Restart app
-      command: docker-compose down && docker-compose up -d
+    - name: Set DB_HOST in docker-compose
+      replace:
+        path: /home/ubuntu/app/docker-compose.yml
+        regexp: 'DB_HOST:.*'
+        replace: 'DB_HOST: "{{ db_host }}"'
+
+    - name: Start app
+      command: docker-compose up -d --build
       args:
         chdir: /home/ubuntu/app
-

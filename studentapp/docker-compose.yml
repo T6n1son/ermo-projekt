@@ -1,26 +1,12 @@
 version: "3"
-
 services:
   web:
     build: .
     ports:
       - "5000:5000"
     environment:
-      DB_HOST: db
+      DB_HOST: "192.168.10.59"
       DB_NAME: messages
       DB_USER: user
       DB_PASS: password
-    depends_on:
-      - db
-
-  db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: messages
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
-volumes:
-  db_data:
+    restart: always

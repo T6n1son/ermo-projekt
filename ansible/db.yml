@@ -1,0 +1,62 @@
+- hosts: db
+  become: yes
+  tasks:
+    - name: Install PostgreSQL
+      apt:
+        name:
+          - postgresql
+          - postgresql-contrib
+        state: present
+        update_cache: yes
+
+    - name: Start PostgreSQL
+      service:
+        name: postgresql
+        state: started
+        enabled: yes
+
+    - name: Install acl and psycopg2 (required for become_user)
+      apt:
+        name:
+          - acl
+          - python3-psycopg2
+        state: present
+
+    - name: Create database
+      become: yes
+      become_user: postgres
+      postgresql_db:
+        name: messages
+
+    - name: Create user
+      become: yes
+      become_user: postgres
+      postgresql_user:
+        name: user
+        password: password
+        role_attr_flags: LOGIN
+
+    - name: Grant database privileges
+      become: yes
+      become_user: postgres
+      postgresql_privs:
+        db: messages
+        role: user
+        privs: ALL
+        type: database
+
+    - name: Allow remote connections
+      lineinfile:
+        path: /etc/postgresql/14/main/postgresql.conf
+        regexp: "^#listen_addresses"
+        line: "listen_addresses = '*'"
+
+    - name: Allow password auth from web
+      lineinfile:
+        path: /etc/postgresql/14/main/pg_hba.conf
+        line: "host messages user 192.168.10.58/32 md5"
+
+    - name: Restart PostgreSQL
+      service:
+        name: postgresql
+        state: restarted

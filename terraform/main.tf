@@ -18,6 +18,9 @@ resource "proxmox_virtual_environment_vm" "web" {
     model  = "virtio"
     bridge = "vmbr0"
   }
+
+  boot_order    = ["scsi0"]
+  scsi_hardware = "virtio-scsi-pci"
 }
 
 resource "proxmox_virtual_environment_vm" "db" {
@@ -40,6 +43,9 @@ resource "proxmox_virtual_environment_vm" "db" {
     model  = "virtio"
     bridge = "vmbr0"
   }
+
+  boot_order    = ["scsi0"]
+  scsi_hardware = "virtio-scsi-pci"
 }
 
 resource "proxmox_virtual_environment_vm" "monitor" {
@@ -62,6 +68,9 @@ resource "proxmox_virtual_environment_vm" "monitor" {
     model  = "virtio"
     bridge = "vmbr0"
   }
+
+  boot_order    = ["scsi0"]
+  scsi_hardware = "virtio-scsi-pci"
 }
 
 data "proxmox_virtual_environment_vms" "template" {

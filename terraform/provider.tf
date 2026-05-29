@@ -6,9 +6,13 @@ terraform {
     }
   }
 }
-
 provider "proxmox" {
-  endpoint  = "https://192.168.10.160:8006/"
-  api_token = "root@pam!sten=259d9e8c-9d99-494c-b73d-e756144862c6"
+  endpoint  = var.proxmox_endpoint
+  api_token = var.proxmox_api_token
   insecure  = true
+  ssh {
+    agent    = false
+    username = var.proxmox_ssh_user
+    password = var.proxmox_ssh_password
+  }
 }

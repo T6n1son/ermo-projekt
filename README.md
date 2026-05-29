@@ -10,10 +10,18 @@ Projektis luuakse kolm virtuaalmasinat Proxmoxis:
 - **sten-monitor-01** → monitoorimise tööriistad
 
 ## Eeldused
-- Proxmox server töötab ja template `sten-template` on olemas
+- Proxmox server töötab
 - Terraform installitud
 - Ansible installitud
 - SSH ligipääs Proxmoxi serverile
+- Loo fail `terraform/terraform.tfvars` järgmise sisuga:
+
+```hcl
+proxmox_endpoint     = "https://PROXMOX-IP:8006/"
+proxmox_api_token    = "root@pam!TOKEN-ID=TOKEN-SECRET"
+proxmox_ssh_user     = "root"
+proxmox_ssh_password = "PROXMOX-PAROOl"
+```
 
 ## Kasutusjuhend
 
@@ -23,7 +31,7 @@ cd terraform
 terraform init
 terraform apply
 ```
-Terraform loob kolm VM-i Proxmoxis automaatselt.
+Terraform loob Ubuntu template automaatselt ja seejärel kolm VM-i Proxmoxis.
 
 ### 2. Ansible — rakenduse paigaldamine
 ```bash
@@ -52,6 +60,6 @@ ermo-projekt/
 │   └── requirements.txt
 ├── terraform/
 │   ├── main.tf          # VM-ide definitsioonid
+│   ├── variables.tf     # muutujate definitsioonid
 │   └── provider.tf      # Proxmox provider
 └── README.md
-
